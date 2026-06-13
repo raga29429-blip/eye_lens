@@ -23,10 +23,28 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# CORS middleware
+# CORS middleware - Allow frontend origins
+frontend_url = os.getenv("FRONTEND_URL", "")
+allowed_origins = [
+    "http://localhost:3000",
+    "http://localhost:5173",
+]
+
+# Add production frontend URL if set
+if frontend_url:
+    allowed_origins.append(frontend_url)
+
+# Allow all Railway/Vercel/Render domains in production
+if os.getenv("ENVIRONMENT") == "production":
+    allowed_origins.extend([
+        "https://*.up.railway.app",
+        "https://*.vercel.app",
+        "https://*.onrender.com",
+    ])
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173"],
+    allow_origins=allowed_origins if os.getenv("ENVIRONMENT") != "production" else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -46,4 +64,5 @@ def read_root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=os.getenv("ENVIRONMENT") != "production")

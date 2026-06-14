@@ -2,142 +2,140 @@
 
 An intelligent fulfillment platform for eyewear production with predictive machine learning capabilities.
 
-## Overview
+## 🎯 Overview
 
-The Eluno AI OMS is designed to optimize eyewear production by integrating rule-based inventory management with predictive machine learning. The system proactively identifies SLA breaches to enable immediate operational intervention.
+The Eluno AI OMS optimizes eyewear production by integrating rule-based inventory management with predictive machine learning to proactively identify SLA breaches before they occur.
 
-## Tech Stack
+## 📁 Project Structure
 
-- **Frontend**: React + TypeScript + Vite + Tailwind CSS
-- **Backend**: Python FastAPI
-- **Database**: SQLite (development) / PostgreSQL (production)
-- **ML**: Scikit-learn for TAT breach prediction
-- **AI**: Google Gemini API for recommendations
+```
+eye_lens/
+├── backend/              # Python FastAPI backend
+│   ├── routers/         # API endpoints
+│   ├── services/        # Business logic
+│   ├── main.py          # Entry point
+│   ├── requirements.txt # Python dependencies
+│   └── README.md        # Backend documentation
+├── frontend/            # React TypeScript frontend
+│   ├── src/            # Source code
+│   ├── package.json    # Node dependencies
+│   └── README.md       # Frontend documentation
+├── docs/               # Documentation
+│   ├── DEPLOYMENT.md   # Multi-platform deployment guide
+│   ├── RAILWAY_SETUP.md # Railway-specific guide
+│   └── RENDER_SETUP.md  # Render-specific guide
+└── README.md           # This file
+```
 
-## Features
+## ✨ Features
 
 - **Inventory Management**: Track lens types, prescriptions, and stock levels
 - **Order Lifecycle Tracking**: Monitor orders through all production stages
 - **ML-Based Breach Prediction**: Predict SLA violations before they occur
 - **Alert System**: Automated notifications for high-risk orders
-- **AI Recommendations**: Get intelligent remediation suggestions
+- **AI Recommendations**: Get intelligent remediation suggestions from Google Gemini
+- **Real-time Dashboard**: Monitor KPIs and order status
 
-## Quick Start
-
-### Prerequisites
-
-- Python 3.8+
-- Node.js 16+
-- npm or yarn
+## 🚀 Quick Start
 
 ### Backend Setup
 
-1. Navigate to backend directory:
-   ```bash
-   cd backend
-   ```
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python main.py
+```
 
-2. Install Python dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Set up environment variables (create `backend/.env`):
-   ```
-   DATABASE_URL=sqlite:///./eluno_oms.db
-   GEMINI_API_KEY=your_gemini_api_key_here
-   ```
-
-4. Start the backend server:
-   ```bash
-   python main.py
-   ```
-
-   Backend will be available at `http://localhost:8000`
+Backend runs on: `http://localhost:8000`
 
 ### Frontend Setup
 
-1. Install dependencies from project root:
-   ```bash
-   npm install
-   ```
-
-2. Set up environment variables (create `.env`):
-   ```
-   VITE_API_URL=http://localhost:8000/api
-   ```
-
-3. Start the frontend development server:
-   ```bash
-   npm run dev:frontend
-   ```
-
-   Frontend will be available at `http://localhost:3000`
-
-## API Endpoints
-
-### Inventory
-- `GET /api/inventory` - Get all inventory items
-- `POST /api/inventory` - Create new inventory item
-
-### Orders
-- `GET /api/orders` - Get all orders (with filters)
-- `POST /api/orders` - Create new order
-- `PUT /api/orders/:id/stage` - Update order stage
-
-### Alerts
-- `GET /api/alerts` - Get all alerts
-
-### Metrics
-- `GET /api/dashboard/metrics` - Get dashboard metrics
-
-### ML Model
-- `GET /api/model-metrics` - Get model performance metrics
-- `POST /api/model/retrain` - Retrain the ML model
-
-### Recommendations
-- `POST /api/recommendations` - Get AI recommendations for an order
-
-## Project Structure
-
-```
-.
-├── backend/                 # Python FastAPI backend
-│   ├── main.py             # Application entry point
-│   ├── database.py         # Database configuration
-│   ├── models.py           # SQLAlchemy models
-│   ├── schemas.py          # Pydantic schemas
-│   ├── routers/            # API route handlers
-│   └── services/           # Business logic services
-├── src/                    # React frontend
-│   ├── App.tsx            # Main application component
-│   ├── components/        # React components
-│   └── types.ts           # TypeScript type definitions
-├── .env                   # Frontend environment variables
-└── package.json          # Node.js dependencies
-
-```
-
-## Development
-
-### Run Tests
-
-Backend tests:
 ```bash
-cd backend
-pytest
+cd frontend
+npm install
+npm run dev
 ```
 
-### Database
+Frontend runs on: `http://localhost:3000`
 
-The system uses SQLite for development. Database file: `backend/eluno_oms.db`
+See individual README files in `backend/` and `frontend/` for detailed instructions.
 
-To reset the database, delete the file and restart the backend.
+## 🛠️ Tech Stack
 
-## Deployment
+**Backend:**
+- Python 3.11
+- FastAPI
+- SQLAlchemy
+- PostgreSQL/SQLite
+- Scikit-learn
+- Google Gemini AI
 
-See `docker-compose.yml` for containerized deployment configuration.
+**Frontend:**
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
 
-## License
+## 📦 Deployment
+
+Multiple deployment options available:
+
+- **Railway**: All-in-one platform (recommended for beginners)
+- **Render**: Free tier with PostgreSQL
+- **Vercel + Render**: Frontend on Vercel, Backend on Render
+- **Docker**: Self-hosted with Docker Compose
+
+See `docs/DEPLOYMENT.md` for complete deployment guides.
+
+## 📊 ML Model
+
+The system uses a trained Random Forest model for TAT breach prediction:
+- Model file: `order_breach_model (1).pkl`
+- Features: Order stage, lens type, stock status, prescription complexity
+- Predicts breach probability (0-100%)
+- Risk classification: Low (<30%), Medium (30-70%), High (>70%)
+
+## 🔐 Environment Variables
+
+**Backend (.env):**
+```env
+DATABASE_URL=sqlite:///./eluno_oms.db
+GEMINI_API_KEY=your_api_key
+ENVIRONMENT=development
+```
+
+**Frontend (.env):**
+```env
+VITE_API_URL=http://localhost:8000/api
+```
+
+## 📚 Documentation
+
+- **Backend API**: `http://localhost:8000/docs` (when running)
+- **Deployment Guides**: See `docs/` folder
+- **Component Docs**: See individual README files
+
+## 🧪 Testing
+
+Backend API integration tests:
+```bash
+python test_api_integration.py
+```
+
+## 📝 License
 
 MIT
+
+## 🤝 Contributing
+
+This is a project for eyewear fulfillment optimization. For questions or contributions, please open an issue.
+
+---
+
+**Status**: Production Ready ✅
+
+**Live Demo**: [Your deployed URL]
+
+**Repository**: https://github.com/raga29429-blip/eye_lens

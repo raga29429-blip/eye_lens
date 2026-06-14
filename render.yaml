@@ -12,19 +12,24 @@ services:
         value: 3.11.0
       - key: ENVIRONMENT
         value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: eluno-oms-db
+          property: connectionString
+      - key: GEMINI_API_KEY
+        sync: false
     healthCheckPath: /
     autoDeploy: true
 
   # Frontend Static Site
-  - type: web
+  - type: static
     name: eluno-oms-frontend
-    runtime: node
-    plan: free
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
     envVars:
       - key: VITE_API_URL
-        value: https://eye-lens-designer.onrender.com/api
+        value: https://eluno-oms-backend.onrender.com/api
+    pullRequestPreviewsEnabled: true
     autoDeploy: true
 
 databases:

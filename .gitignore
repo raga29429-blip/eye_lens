@@ -1,21 +1,26 @@
 # Dependencies
 node_modules/
+frontend/node_modules/
 backend/venv/
 backend/__pycache__/
+backend/services/__pycache__/
+backend/routers/__pycache__/
 venv/
 
 # Environment variables
 .env
+frontend/.env
 backend/.env
 
 # Database
 *.db
 *.db-journal
-eluno_db.json
-backend/eluno_oms.db
+backend/*.db
+eluno_oms.db
 
 # Build outputs
 dist/
+frontend/dist/
 build/
 *.pyc
 
@@ -42,3 +47,6 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
+
+# Assets (if not needed)
+assets/
